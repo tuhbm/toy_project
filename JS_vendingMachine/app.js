@@ -35,36 +35,37 @@ class VendingMachine {
         this.moneyCase = 0;
         this.profitCase = 0; //음료수를 판 금액
     }
-    applayDrinks(name, quantity, temper) {
+    applyDrinks(name, quantity, temper) {
         let index = 0;
         let len = this.drinks.length;
         for (index;index <= len;i++){
             if (name !== this.drinks.name) {
-                return `선택하신 음료가 없습니다.`
+                throw '선택하신 음료가 없습니다.';
+
             }
             return this.drinks.quantity += quantity;
         }
     }
     newDrinkAdd(name, price, quantity) {
-        if(temper !== 'cold' && temper !== 'hot'){
-            return;
-        }
-        return this.drinks.push(
-            `name:${name},price: ${price},quantity:${quantity}`
-        )
+        return this.drinks.push({
+            name: name,
+            price: price,
+            quantity: quantity
+        });
     }
     giveMoney(money) {
         return this.moneyCase = money;
     }
     getDrink(drink) {
         let index = 0;
-        let name = drink.toString();
         while(index <= this.drinks.length){
-            if(this.drinks[index].name === name){
+            if(this.moneyCase <= this.drinks[index].price) throw '잔액이 부족하거나 없습니다.';
+            if(this.drinks[index].name === drink){
                 this.moneyCase -= this.drinks[index].price;
                 this.profitCase += this.drinks[index].price;
-                this.drinks.quantity -= 1;
-                return `음료수 ${this.drinks.name}이 나왔습니다. |n 잔액이 ${this.drinks.moneyCase}원 남았습니다.`
+                this.drinks[index].quantity -= 1;
+                return `음료수 ${this.drinks[index].name}가 나왔습니다.
+                잔액이 ${this.moneyCase}원 남았습니다.`
             }
             index++
         }
@@ -78,9 +79,16 @@ class VendingMachine {
         return `잔액 ${changeMoney}원이 반환 되었습니다.`;
     }
     turnPower() {
-        return !this.power;
+        return this.power = !this.power;
     }
-}
+};
+
+
+const v = new VendingMachine();
+v.turnPower() //전원켜짐
+v.newDrinkAdd('콜라', 700, 50) // 음료수 목록에 콜라가 700원에 50개가 들어감
+
+
 
 class HotOrColdVendingMachine extends VendingMachine {
     constructor() {
