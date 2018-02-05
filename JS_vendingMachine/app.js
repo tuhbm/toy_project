@@ -35,18 +35,23 @@ class VendingMachine {
         this.moneyCase = 0;
         this.profitCase = 0; //음료수를 판 금액
     }
-    applayDrinks(name, num, temper) {
+    applayDrinks(name, quantity, temper) {
         let index = 0;
         let len = this.drinks.length;
         for (index;index <= len;i++){
             if (name !== this.drinks.name) {
-
+                return `선택하신 음료가 없습니다.`
             }
-            return this.drinks.quantity += num;
+            return this.drinks.quantity += quantity;
         }
     }
-    newDrinkAdd() {
-
+    newDrinkAdd(name, price, quantity) {
+        if(temper !== 'cold' && temper !== 'hot'){
+            return;
+        }
+        return this.drinks.push(
+            `name:${name},price: ${price},quantity:${quantity}`
+        )
     }
     giveMoney(money) {
         return this.moneyCase = money;
